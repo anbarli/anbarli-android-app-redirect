@@ -49,7 +49,7 @@ final class Anbarli_Android_App_Redirect {
     private function defaults(): array {
         return [
             'enabled' => 1,
-            'logged_in_only' => 1,
+            'logged_in_only' => 0,
             'package_name' => '',
             'play_url' => '',
             'title' => 'Android uygulamamız hazır',
@@ -189,7 +189,7 @@ final class Anbarli_Android_App_Redirect {
             });
 
             banner.querySelector('.anbarli-aabr__open').addEventListener('click', () => {
-                const path = location.pathname + location.search + location.hash;
+                const path = location.pathname + location.search;
                 const intentUrl = 'intent://' + config.host + path + '#Intent;scheme=https;package=' +
                     encodeURIComponent(config.packageName) + ';S.browser_fallback_url=' +
                     encodeURIComponent(config.playUrl) + ';end';

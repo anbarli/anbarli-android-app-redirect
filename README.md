@@ -12,7 +12,7 @@ Android ziyaretçilere **Uygulamada Aç** bildirimi gösteren hafif bir WordPres
 - Can be displayed to all Android visitors or only logged-in users.
 - Opens the installed Android app using an Android Intent URL.
 - Falls back to the configured Google Play URL when the app is not installed.
-- Preserves the current page path, query string, and URL fragment.
+- Preserves the current page path and query string.
 - Does not display while the website is running in PWA/standalone mode.
 - Configurable title, message, button text, and dismissal period.
 - Theme-independent; no theme file changes are required.
@@ -48,7 +48,7 @@ https://example.com/.well-known/assetlinks.json
 - Tüm Android ziyaretçilere veya yalnızca giriş yapmış kullanıcılara gösterilebilir.
 - Android Intent bağlantısıyla yüklü uygulamayı açar.
 - Uygulama yüklü değilse ayarlanan Google Play adresine yönlendirir.
-- Bulunulan sayfanın yolunu, sorgu parametrelerini ve URL bölümünü korur.
+- Bulunulan sayfanın yolunu ve sorgu parametrelerini korur.
 - Site PWA/standalone modunda çalışırken görünmez.
 - Başlık, açıklama, buton metni ve kapatıldıktan sonra bekleme süresi ayarlanabilir.
 - Temadan bağımsızdır; tema dosyalarında değişiklik gerektirmez.
