@@ -1,91 +1,125 @@
-# Anbarlı Android App Redirect
+# Anbarli Android App Redirect
 
-A lightweight WordPress plugin that displays an **Open in App** banner to Android visitors. If the Android app is not installed, the visitor is redirected to the configured Google Play page.
+A lightweight WordPress plugin that shows Android visitors an **Open in App** banner, opens your app with Android Intent URLs, and falls back to Google Play when the app is not installed.
 
-Android ziyaretçilere **Uygulamada Aç** bildirimi gösteren hafif bir WordPress eklentisidir. Uygulama yüklü değilse ziyaretçi, ayarlanan Google Play sayfasına yönlendirilir.
+[Download latest release](../../releases) · [Setup guide](https://anbarli.com.tr/blog/anbarli-android-app-redirect) · [Report an issue](../../issues)
 
-## English
+## Why
 
-### Features
+WordPress sites with Android apps often need a simple way to move mobile visitors from a web page into the native app. This plugin adds that flow without editing theme files, adding a JavaScript framework, or building a custom banner from scratch.
 
-- Works only on Android devices.
-- Can be displayed to all Android visitors or only logged-in users.
-- Opens the installed Android app using an Android Intent URL.
+## Features
+
+- Shows an **Open in App** banner only to Android visitors.
+- Opens the installed Android app with an Android Intent URL.
 - Falls back to the configured Google Play URL when the app is not installed.
 - Preserves the current page path and query string.
-- Does not display while the website is running in PWA/standalone mode.
-- Configurable title, message, button text, and dismissal period.
-- Theme-independent; no theme file changes are required.
+- Can be shown to all Android visitors or only logged-in users.
+- Stays hidden when the website is running in PWA/standalone mode.
+- Lets admins configure the title, message, button text, and dismiss period.
+- Works independently of the active WordPress theme.
 
-### Installation
+## Quick Start
 
-1. Download the latest ZIP from the repository's Releases page.
-2. In WordPress, go to **Plugins > Add New Plugin > Upload Plugin**.
+1. Download the latest ZIP from the [Releases](../../releases) page.
+2. In WordPress, open **Plugins > Add New Plugin > Upload Plugin**.
 3. Upload the ZIP, install it, and activate it.
-4. Go to **Settings > Android App Redirect**.
-5. Enter the Android package name and the full Google Play URL.
-6. Configure visibility and banner content, then save.
+4. Open **Settings > Android App Redirect**.
+5. Enter your Android package name and Google Play URL.
+6. Save the settings and test from an Android browser.
 
-### Android requirement
+## Configuration Example
 
-The Android application must be configured to handle the website's HTTPS URLs. For verified Android App Links, publish a valid `assetlinks.json` file at:
+```text
+Android package name:
+com.example.app
+
+Google Play URL:
+https://play.google.com/store/apps/details?id=com.example.app
+```
+
+When an Android visitor taps the banner, the plugin builds an Intent URL for the current WordPress page:
+
+```text
+intent://example.com/current-page#Intent;scheme=https;package=com.example.app;S.browser_fallback_url=https%3A%2F%2Fplay.google.com%2Fstore%2Fapps%2Fdetails%3Fid%3Dcom.example.app;end
+```
+
+## Android App Links Requirement
+
+Your Android app must be configured to handle your website's HTTPS URLs. For verified Android App Links, publish a valid `assetlinks.json` file at:
 
 ```text
 https://example.com/.well-known/assetlinks.json
 ```
 
-### Notes
+The app should also include the matching intent filters in `AndroidManifest.xml`.
 
-- The banner is triggered by a user click because mobile browsers can block automatic app launches.
-- This plugin does not share WordPress login sessions with the Android app.
-- Google Play fallback behavior is intended for Android browsers that support Intent URLs, including Chrome.
+## Troubleshooting
 
-## Türkçe
+**The banner does not appear**
 
-### Özellikler
+- Test on a real Android browser. Desktop browsers and most emulators may not match the Android user agent.
+- Check that the plugin is enabled in **Settings > Android App Redirect**.
+- Confirm that both the package name and Google Play URL are saved.
+- If "logged-in users only" is enabled, test while signed in.
+- If the site is installed as a PWA, the banner is intentionally hidden in standalone mode.
 
-- Yalnızca Android cihazlarda çalışır.
-- Tüm Android ziyaretçilere veya yalnızca giriş yapmış kullanıcılara gösterilebilir.
-- Android Intent bağlantısıyla yüklü uygulamayı açar.
-- Uygulama yüklü değilse ayarlanan Google Play adresine yönlendirir.
-- Bulunulan sayfanın yolunu ve sorgu parametrelerini korur.
-- Site PWA/standalone modunda çalışırken görünmez.
-- Başlık, açıklama, buton metni ve kapatıldıktan sonra bekleme süresi ayarlanabilir.
-- Temadan bağımsızdır; tema dosyalarında değişiklik gerektirmez.
+**The app does not open**
 
-### Kurulum
+- Confirm that the Android package name is correct.
+- Confirm that the app supports the website URL through Android App Links or compatible deep link intent filters.
+- Test in Chrome for Android first because Intent URL fallback behavior varies by browser.
 
-1. Deponun Releases bölümünden güncel ZIP dosyasını indirin.
-2. WordPress panelinde **Eklentiler > Yeni Eklenti Ekle > Eklenti Yükle** bölümüne gidin.
-3. ZIP dosyasını yükleyin, kurun ve etkinleştirin.
-4. **Ayarlar > Android App Redirect** sayfasını açın.
-5. Android paket adını ve tam Google Play adresini girin.
-6. Görünürlük ve bildirim metinlerini ayarlayıp kaydedin.
+**Google Play does not open**
 
-### Android gereksinimi
+- Confirm that the Google Play URL is a full `https://play.google.com/store/apps/details?id=...` URL.
+- Make sure the browser supports Android Intent URLs.
 
-Android uygulamasının sitenizin HTTPS bağlantılarını açacak şekilde yapılandırılmış olması gerekir. Doğrulanmış Android App Links için aşağıdaki konumda geçerli bir `assetlinks.json` dosyası yayınlayın:
+## FAQ
 
-```text
-https://ornek.com/.well-known/assetlinks.json
+### Does this share WordPress login sessions with the Android app?
+
+No. WordPress authentication and Android app authentication must be integrated separately.
+
+### Does this work on iOS?
+
+No. This plugin is intentionally Android-focused. iOS requires a separate Universal Links and App Store banner strategy.
+
+### Does this replace Android App Links?
+
+No. The plugin renders the WordPress banner and builds the Intent URL. Your Android app and website still need the correct App Links configuration for the best user experience.
+
+## Roadmap
+
+- Add screenshots for the admin settings page and mobile banner.
+- Add WordPress coding standards checks.
+- Add translation files.
+- Add filters for custom banner visibility rules.
+- Add an optional shortcode or block for manual app-open buttons.
+
+## Development
+
+Issues and pull requests are welcome.
+
+Useful local checks:
+
+```bash
+php -l anbarli-android-app-redirect.php
+php -l uninstall.php
 ```
 
-### Notlar
+## Contributing
 
-- Mobil tarayıcılar otomatik uygulama açmayı engelleyebildiği için işlem kullanıcı tıklamasıyla başlatılır.
-- Bu eklenti WordPress oturumunu Android uygulamasıyla paylaşmaz.
-- Google Play geri dönüşü, Chrome dahil Intent URL destekleyen Android tarayıcıları içindir.
+See [CONTRIBUTING.md](CONTRIBUTING.md) for local setup, issue reporting, and pull request guidelines.
 
-## Development / Geliştirme
+If this plugin saves you a custom theme edit, consider starring the repository so other WordPress developers can find it.
 
-Issues and pull requests are welcome. / Hata bildirimleri ve katkı talepleri kabul edilir.
-
-- Repository / Depo: https://github.com/anbarli/anbarli-android-app-redirect
-- Author / Geliştirici: https://github.com/anbarli
-
-## License / Lisans
+## License
 
 Licensed under the GNU General Public License v2.0 or later. See [LICENSE](LICENSE).
 
-GNU Genel Kamu Lisansı v2.0 veya üzeriyle lisanslanmıştır. Ayrıntılar için [LICENSE](LICENSE) dosyasına bakın.
+## Turkce
 
+Anbarli Android App Redirect, Android ziyaretcilere **Uygulamada Ac** bildirimi gosteren hafif bir WordPress eklentisidir. Uygulama yuklu degilse ziyaretciyi ayarlanan Google Play sayfasina yonlendirir.
+
+Kurulum: ZIP dosyasini yukleyin, eklentiyi etkinlestirin, **Ayarlar > Android App Redirect** sayfasinda Android paket adini ve Google Play URL'sini girin.
