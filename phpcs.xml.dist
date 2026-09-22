@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<ruleset name="Anbarli Android App Redirect">
+	<description>WordPress coding standards for Anbarli Android App Redirect.</description>
+
+	<file>.</file>
+
+	<exclude-pattern>*/.git/*</exclude-pattern>
+	<exclude-pattern>*/vendor/*</exclude-pattern>
+
+	<arg name="extensions" value="php"/>
+	<arg name="parallel" value="8"/>
+	<arg value="ps"/>
+
+	<config name="testVersion" value="7.4-"/>
+
+	<rule ref="WordPress">
+		<exclude name="WordPress.Files.FileName.InvalidClassFileName"/>
+		<exclude name="WordPress.WP.I18n"/>
+		<exclude name="WordPress.WP.EnqueuedResources"/>
+	</rule>
+
+	<rule ref="WordPress.NamingConventions.PrefixAllGlobals">
+		<properties>
+			<property name="prefixes" type="array">
+				<element value="anbarli"/>
+				<element value="Anbarli"/>
+			</property>
+		</properties>
+	</rule>
+</ruleset>
